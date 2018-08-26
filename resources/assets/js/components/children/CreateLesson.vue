@@ -62,7 +62,8 @@ export default {
         description: this.description,
         episode_number: this.episode_number,
       }).then(res => {
-        console.log(res);
+        this.$parent.$emit('lesson_created', res.data);
+        $('#createLesson').modal('hide');
       }).catch(error => {
         console.log(error.response);
       });

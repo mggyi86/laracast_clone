@@ -47698,6 +47698,17 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -47719,25 +47730,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['default_lessons', 'series_id'],
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$on('lesson_created', function (lesson) {
+      _this.lessons.push(lesson);
+    });
+  },
+
   components: {
     'create-lesson': __webpack_require__(45)
   },
   data: function data() {
     return {
-      lessons: this.default_lessons
+      lessons: JSON.parse(this.default_lessons)
     };
   },
 
   computed: {
-    formattedLessons: function formattedLessons() {
-      return JSON.parse(this.lessons);
-    }
+    // formattedLessons() {
+    //   return JSON.parse(this.lessons);
+    // }
   },
   methods: {
     createNewLesson: function createNewLesson() {
       this.$emit('create_new_lesson', this.series_id);
+    },
+    deleteLesson: function deleteLesson(id, key) {
+      var _this2 = this;
+
+      if (confirm('Are you sure you want to delete?')) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/admin/' + this.series_id + '/lessons/' + id).then(function (res) {
+          _this2.lessons.splice(key, 1);
+        }).catch(function (error) {
+          console.log(error.response);
+        });
+      }
     }
   }
 });
@@ -47858,13 +47890,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     createLesson: function createLesson() {
+      var _this2 = this;
+
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/admin/' + this.seriesID + '/lessons', {
         title: this.title,
         video_id: this.video_id,
         description: this.description,
         episode_number: this.episode_number
       }).then(function (res) {
-        console.log(res);
+        _this2.$parent.$emit('lesson_created', res.data);
+        $('#createLesson').modal('hide');
       }).catch(function (error) {
         console.log(error.response);
       });
@@ -48082,20 +48117,43 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c(
-        "ul",
-        { staticClass: "list-group" },
-        _vm._l(_vm.formattedLessons, function(lesson) {
-          return _c(
-            "li",
-            {
-              key: _vm.formattedLessons.indexOf(lesson),
-              staticClass: "list-group-item"
-            },
-            [_vm._v("\n            " + _vm._s(lesson.title) + "\n        ")]
-          )
-        })
-      ),
+      _c("div", {}, [
+        _c(
+          "ul",
+          { staticClass: "list-group d-flex" },
+          _vm._l(_vm.lessons, function(lesson, key) {
+            return _c(
+              "li",
+              {
+                key: _vm.lessons.indexOf(lesson),
+                staticClass: "list-group-item flex justify-content-between"
+              },
+              [
+                _c("p", [_vm._v(_vm._s(lesson.title))]),
+                _vm._v(" "),
+                _c("p", [
+                  _c("button", { staticClass: "btn btn-primary btn-xs" }, [
+                    _vm._v("\n                    Edit\n                ")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger btn-xs",
+                      on: {
+                        click: function($event) {
+                          _vm.deleteLesson(lesson.id, key)
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    Delete\n                ")]
+                  )
+                ])
+              ]
+            )
+          })
+        )
+      ]),
       _vm._v(" "),
       _c("create-lesson")
     ],

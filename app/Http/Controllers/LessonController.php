@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Lesson;
 use App\Series;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateLessonRequest;
 
 class LessonController extends Controller
 {
@@ -35,7 +36,7 @@ class LessonController extends Controller
      * @return \Illuminate\Http\Response
      */
     // public function store(Series $series, Request $request)
-    public function store(Series $series,Request $request)
+    public function store(Series $series,CreateLessonRequest $request)
     {
         // return 'test';
         return $series->lessons()->create($request->all());
@@ -81,8 +82,10 @@ class LessonController extends Controller
      * @param  \App\Lesson  $lesson
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lesson $lesson)
+    public function destroy(Series $series, Lesson $lesson)
     {
-        //
+        $lesson->delete();
+
+        return response()->json(['status' => 'ok'], 200);
     }
 }
