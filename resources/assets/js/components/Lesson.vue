@@ -12,7 +12,7 @@
             <li class="list-group-item flex justify-content-between" v-for="(lesson,key) in lessons" :key=lessons.indexOf(lesson)>
                 <p>{{ lesson.title }}</p>
                 <p>
-                    <button class="btn btn-primary btn-xs">
+                    <button class="btn btn-primary btn-xs" @click="editLesson(lesson)">
                         Edit
                     </button>
                     <button class="btn btn-danger btn-xs" @click="deleteLesson(lesson.id, key)">
@@ -35,6 +35,12 @@ export default {
   mounted() {
     this.$on('lesson_created', (lesson) => {
       this.lessons.push(lesson);
+    });
+    this.$on('lesson_updated', (lesson) => {
+      let lessonIndex = this.lessons.findIndex(l => {
+        return lesson.id == l.id;
+      });
+      this.lessons.splice(lessonIndex, 1, lesson);
     });
   },
   components: {
@@ -63,6 +69,10 @@ export default {
             console.log(error.response);
           });
       }
+    },
+    editLesson(lesson) {
+      let seriesId = this.series_id;
+      this.$emit('edit_lesson', { lesson, seriesId });
     }
   }
 }

@@ -11,23 +11,28 @@
             <div class="modal-body">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Lesson title"
-                    v-model="title">
+                    v-model="lesson.title">
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Vimeo vidoe id"
-                    v-model="video_id">
+                    v-model="lesson.video_id">
                 </div>
                 <div class="form-group">
                     <input type="number" class="form-control" placeholder="Episode number"
-                    v-model="episode_number">
+                    v-model="lesson.episode_number">
                 </div>
                 <div class="form-group">
-                    <textarea v-model="description" cols="30" rows="10" class="form-control"></textarea>
+                    <textarea v-model="lesson.description" cols="30" rows="10" class="form-control"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" @click="createLesson">Save lesson</button>
+                <button type="button" class="btn btn-primary" @click="updateLesson" v-if="editing">
+                    Save lesson
+                </button>
+                <button type="button" class="btn btn-primary" @click="createLesson" v-else>
+                    Create lesson
+                </button>
             </div>
         </div>
     </div>
@@ -38,36 +43,70 @@
 <script>
 import axios from 'axios';
 
+class Lesson {
+  constructor(lesson) {
+    this.title = lesson.title || '';
+    this.description = lesson.description || '';
+    this.video_id = lesson.video_id || '';
+    this.episode_number = lesson.episode_number || '';
+  }
+}
+
 export default {
   data() {
     return {
-      title: '',
-      seriesID: '',
-      video_id: '',
-      description: '',
-      episode_number: '',
+    //   title: '',
+    //   description: '',
+    //   video_id: '',
+    //   episode_number: '',
+      lesson: {},
+      editing: false,
+      seriesId: '',
+      lessonId: null
     }
   },
   mounted() {
-    this.$parent.$on('create_new_lesson', (seriesID) => {
-      this.seriesID = seriesID;
+    this.$parent.$on('create_new_lesson', (seriesId) => {
+      this.seriesId = seriesId;
+      this.editing = false;
+      this.lesson = new Lesson({});
+      $('#createLesson').modal();
+    });
+
+    this.$parent.$on('edit_lesson', ({ lesson, seriesId }) => {
+      this.editing = true;
+      this.lesson = new Lesson(lesson);
+    //   this.title = lesson.title;
+    //   this.description = lesson.description;
+    //   this.video_id = lesson.video_id;
+    //   this.episode_number = lesson.episode_number;
+      this.seriesId = seriesId;
+      this.lessonId = lesson.id;
       $('#createLesson').modal();
     });
   },
   methods: {
     createLesson: function() {
-      axios.post(`/admin/${this.seriesID}/lessons`, {
-        title: this.title,
-        video_id: this.video_id,
-        description: this.description,
-        episode_number: this.episode_number,
-      }).then(res => {
+      axios.post(`/admin/${this.seriesId}/lessons`, this.lesson
+        // title: this.title,
+        // video_id: this.video_id,
+        // description: this.description,
+        // episode_number: this.episode_number,
+      ).then(res => {
         this.$parent.$emit('lesson_created', res.data);
         $('#createLesson').modal('hide');
       }).catch(error => {
         console.log(error.response);
       });
-    }
+    },
+    updateLesson: function() {
+      axios.put(`/admin/${this.seriesId}/lessons/${this.lessonId}`, this.lesson).then(res => {
+          $('#createLesson').modal('hide');
+          this.$parent.$emit('lesson_updated', res.data);
+      }).catch(error => {
+          console.log(error.response);
+      });
+    },
   }
 }
 </script>
