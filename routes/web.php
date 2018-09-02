@@ -28,7 +28,7 @@ Route::get('/logout', function() {
     return redirect('/');
 });
 
-Route::middleware('admin')->prefix('admin')->group(function() {
-    Route::resource('series', 'SeriesController');
-    Route::resource('{series_by_id}/lessons', 'LessonController');
-});
+// Route::middleware('admin')->prefix('admin')->group(function() {
+//     Route::resource('series', 'SeriesController');
+//     Route::resource('{series_by_id}/lessons', 'LessonController');
+// });

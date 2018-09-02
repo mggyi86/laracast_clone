@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Series;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateSeriesRequest;
 use App\Http\Requests\UpdateSeriesRequest;
 
@@ -72,13 +73,9 @@ class SeriesController extends Controller
      */
     public function update(UpdateSeriesRequest $request, Series $series)
     {
-        if($request->hasFile('image')) {
-            $series->image_url = $request->uploadSeriesImage()->fileName;
-        }
-        $series->title = $request->title;
-        $series->description = $request->description;
-        $series->slug = str_slug($request->title);
-        $series->save();
+        $request->updateSeries($series);
+
+        session()->flash('success', 'Successfully updated series');
 
         return redirect()->route('series.index');
     }
