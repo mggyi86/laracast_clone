@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Series;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateSeriesRequest;
+use App\Http\Requests\UpdateSeriesRequest;
 
 class SeriesController extends Controller
 {
@@ -15,7 +16,7 @@ class SeriesController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.series.all')->withSeries(Series::all());
     }
 
     /**
@@ -59,7 +60,7 @@ class SeriesController extends Controller
      */
     public function edit(Series $series)
     {
-        //
+        return view('admin.series.edit')->withSeries($series);
     }
 
     /**
@@ -69,9 +70,17 @@ class SeriesController extends Controller
      * @param  \App\Series  $series
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Series $series)
+    public function update(UpdateSeriesRequest $request, Series $series)
     {
-        //
+        if($request->hasFile('image')) {
+            $series->image_url = $request->uploadSeriesImage()->fileName;
+        }
+        $series->title = $request->title;
+        $series->description = $request->description;
+        $series->slug = str_slug($request->title);
+        $series->save();
+
+        return redirect()->route('series.index');
     }
 
     /**

@@ -39,7 +39,7 @@
             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
             @auth
                 {{--  @admin  --}}
-                  {{--  <li class="nav-item"><a href="{{ route('series.index') }}" class="nav-link">All series</a></li>  --}}
+                  <li class="nav-item"><a href="{{ route('series.index') }}" class="nav-link">All series</a></li>
                   <li class="nav-item"><a href="{{ route('series.create') }}" class="nav-link">Create series</a></li>
 
                 {{--  @endadmin  --}}
@@ -91,6 +91,7 @@
 
     {{--  <vue-noty></vue-noty>  --}}
     {{--  <vue-login></vue-login>  --}}
+    <vue-noty></vue-noty>
     @guest
         <vue-login></vue-login>
     @endguest

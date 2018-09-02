@@ -96,7 +96,8 @@ export default {
         this.$parent.$emit('lesson_created', res.data);
         $('#createLesson').modal('hide');
       }).catch(error => {
-        console.log(error.response);
+          window.handleErrors(error);
+        //console.log(error.response);
       });
     },
     updateLesson: function() {
@@ -104,7 +105,8 @@ export default {
           $('#createLesson').modal('hide');
           this.$parent.$emit('lesson_updated', res.data);
       }).catch(error => {
-          console.log(error.response);
+          window.handleErrors(error);
+          //console.log(error.response);
       });
     },
   }

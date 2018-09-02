@@ -34,14 +34,31 @@ export default {
   props: ['default_lessons', 'series_id'],
   mounted() {
     this.$on('lesson_created', (lesson) => {
+
+      window.noty({
+          message: 'Lesson created successfully',
+          type: 'success'
+      });
+
       this.lessons.push(lesson);
+
     });
+
     this.$on('lesson_updated', (lesson) => {
+
       let lessonIndex = this.lessons.findIndex(l => {
         return lesson.id == l.id;
       });
+
+      window.noty({
+        message: 'Lesson updated successfully',
+        type: 'success'
+      });
+
       this.lessons.splice(lessonIndex, 1, lesson);
+
     });
+
   },
   components: {
     'create-lesson': require('./children/CreateLesson.vue')
@@ -66,7 +83,8 @@ export default {
           .then(res => {
             this.lessons.splice(key, 1)
           }).catch(error => {
-            console.log(error.response);
+              window.handleErrors(error);
+            //console.log(error.response);
           });
       }
     },
