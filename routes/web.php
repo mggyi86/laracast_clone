@@ -12,10 +12,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-    // return new \App\Mail\ConfirmYourEmail();
-});
+Route::get('/', 'FrontendController@welcome');
 
 Route::get('/register/confirm/', 'ConfirmEmailController@index')->name('confirm-email');
 
