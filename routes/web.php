@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Redis;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -11,6 +13,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/redis', function() {
+    // Redis::set('friend', 'momo');
+    // Redis::lpush('frameworks', ['vuejs', 'laravel']);
+    // Redis::sadd('frontend-frameworks', ['angular', 'ember']);
+    // dd(Redis::smembers('frontend-frameworks'));
+    // dd(Redis::get('friend'));
+    // dd(Redis::lrange('frameworks', 0, -1));
+    // dd('test');
+});
 
 Route::get('/', 'FrontendController@welcome');
 

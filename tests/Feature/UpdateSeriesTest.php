@@ -31,7 +31,7 @@ class UpdateSeriesTest extends TestCase
         ->assertSessionHas('success', 'Successfully updated series');
 
         Storage::disk(config('filesystems.default'))->assertExists(
-            'series/' . str_slug('new series title') . '.png'
+            'public/series/' . str_slug('new series title') . '.png'
         );
 
         $this->assertDatabaseHas('series', [
@@ -58,7 +58,7 @@ class UpdateSeriesTest extends TestCase
         ->assertSessionHas('success', 'Successfully updated series');
 
         Storage::disk(config('filesystems.default'))->assertMissing(
-            'series/' . str_slug('new series title') . '.png'
+            'public/series/' . str_slug('new series title') . '.png'
         );
 
         $this->assertDatabaseHas('series', [

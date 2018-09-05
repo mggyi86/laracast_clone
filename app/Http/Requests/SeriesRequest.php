@@ -13,7 +13,7 @@ class SeriesRequest extends FormRequest
             getClientOriginalExtension();
 
         $uploadedImage->storePubliclyAs(
-            'series', $this->fileName
+            'public/series', $this->fileName
         );
 
         return $this;
