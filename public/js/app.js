@@ -48255,6 +48255,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['default_lesson'],
+  data: function data() {
+    return {
+      lesson: JSON.parse(this.default_lesson)
+    };
+  },
   mounted: function mounted() {
     var player = new __WEBPACK_IMPORTED_MODULE_0__vimeo_player__["a" /* default */]('handstick');
 
@@ -50288,24 +50294,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm.lesson
+      ? _c("div", {
+          attrs: {
+            "data-vimeo-id": _vm.lesson.video_id,
+            "data-vimeo-width": "640",
+            id: "handstick"
+          }
+        })
+      : _vm._e()
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", {
-        attrs: {
-          "data-vimeo-id": "19231868",
-          "data-vimeo-width": "640",
-          id: "handstick"
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

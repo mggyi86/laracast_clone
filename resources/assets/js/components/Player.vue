@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div data-vimeo-id="19231868" data-vimeo-width="640" id="handstick"></div>
+    <div :data-vimeo-id="lesson.video_id" data-vimeo-width="640" v-if="lesson" id="handstick"></div>
 </div>
 </template>
 
@@ -9,6 +9,12 @@
 import Player from '@vimeo/player'
 
 export default {
+  props: ['default_lesson'],
+  data() {
+      return {
+          lesson: JSON.parse(this.default_lesson),
+      }
+  },
   mounted() {
     const player = new Player('handstick');
 
