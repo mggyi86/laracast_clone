@@ -48243,9 +48243,11 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vimeo_player__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vimeo_player__ = __webpack_require__(53);
 //
 //
 //
@@ -48253,6 +48255,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -48270,25 +48273,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       if (this.next_lesson_url) {
-        __WEBPACK_IMPORTED_MODULE_0_sweetalert___default()('Yaaay ! You completed this lesson !').then(function () {
+        __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()('Yaaay ! You completed this lesson !').then(function () {
           window.location = _this.next_lesson_url;
         });
       } else {
-        __WEBPACK_IMPORTED_MODULE_0_sweetalert___default()('Yaaay ! You completed this series !');
+        __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()('Yaaay ! You completed this series !').then(function () {
+          location.reload();
+        });
       }
+    },
+    completeLesson: function completeLesson() {
+      var _this2 = this;
+
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/series/complete-lesson/' + this.lesson.id, {}).then(function (res) {
+        _this2.displayVideoEndedAlert();
+      });
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
-    var player = new __WEBPACK_IMPORTED_MODULE_1__vimeo_player__["a" /* default */]('handstick');
+    var player = new __WEBPACK_IMPORTED_MODULE_2__vimeo_player__["a" /* default */]('handstick');
 
     player.on('play', function () {
       console.log('our video is play');
     });
 
     player.on('ended', function () {
-      _this2.displayVideoEndedAlert();
+      _this3.completeLesson();
     });
   }
 });

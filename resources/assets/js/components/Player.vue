@@ -6,6 +6,7 @@
 
 
 <script>
+import axios from 'axios';
 import Swal from 'sweetalert';
 import Player from '@vimeo/player';
 
@@ -24,8 +25,18 @@ export default {
             window.location = this.next_lesson_url;
           });
       } else {
-        Swal('Yaaay ! You completed this series !');
+        Swal('Yaaay ! You completed this series !')
+          .then(() => {
+            location.reload();
+          });
       }
+    },
+    completeLesson: function() {
+      axios.post(`/series/complete-lesson/${this.lesson.id}`, {
+
+        }).then(res => {
+          this.displayVideoEndedAlert();
+        })
     }
   },
   mounted() {
@@ -36,7 +47,7 @@ export default {
     });
 
     player.on('ended', () => {
-      this.displayVideoEndedAlert();
+      this.completeLesson();
     });
 
   }
