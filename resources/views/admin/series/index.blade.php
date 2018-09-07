@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-<header class="header header-inverse" style="background-color: #c2b2cd;">
+<header class="header header-inverse" style="background-color: #a18cd1;">
     <div class="container text-center">
 
       <div class="row">
@@ -18,16 +18,15 @@
 @stop
 
 @section('content')
-{{--  <div class="section bg-grey">  --}}
+ <div class="section section-inverse">
     <div class="container">
 
       <div class="row gap-y">
         <div class="col-12">
-            <br>
             <vue-lessons default_lessons="{{ $series->lessons }}" series_id="{{ $series->id }}">
             </vue-lessons>
         </div>
       </div>
     </div>
-{{--  </div>  --}}
+ </div>
 @stop
