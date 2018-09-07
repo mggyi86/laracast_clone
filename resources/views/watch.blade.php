@@ -27,6 +27,12 @@
       <div class="row gap-y text-center">
         <div class="col-12">
             <vue-player default_lesson="{{ $lesson }}"></vue-player>
+            @if($lesson->getPrevLesson())
+            <a href="{{ route('series.watch', [ 'series' => $series->slug, 'lesson' => $lesson->getPrevLesson()->id ]) }}" class="btn btn-info btn-lg pull-left">Previous Lesson</a>
+            @endif
+            @if($lesson->getNextLesson())
+                <a href="{{ route('series.watch', [ 'series' => $series->slug, 'lesson' => $lesson->getNextLesson()->id ]) }}" class="btn btn-info btn-lg pull-right">Next Lesson</a>
+            @endif
             {{--  <vue-player default_lesson="{{ $lesson }}"
             @if($nextLesson->id !== $lesson->id)
                 next_lesson_url="{{ route('series.watch', ['series' => $series->slug, 'lesson' => $nextLesson->id ]) }}"
@@ -41,20 +47,20 @@
 
         </div>
         <div class="col-12">
-          {{--  <ul class="list-group">
+          <ul class="list-group">
             @foreach($series->getOrderedLessons() as $l)
               <li class="list-group-item
                 @if($l->id == $lesson->id)
                   active
                 @endif
                 ">
-                  @if(auth()->user()->hasCompletedLesson($l))
+                  {{-- @if(auth()->user()->hasCompletedLesson($l))
                     <b><small>COMPLETED</small></b>
-                  @endif
+                  @endif --}}
                   <a href="{{ route('series.watch', ['series' => $series->slug, 'lesson' => $l->id]) }}">{{ $l->title }}</a>
               </li>
             @endforeach
-          </ul>  --}}
+          </ul>
         </div>
       </div>
     </div>

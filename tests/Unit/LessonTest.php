@@ -2,12 +2,15 @@
 
 namespace Tests\Unit;
 
+use App\Lesson;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LessonTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_can_get_next_and_previous_lessons_from_a_lesson()
     {
         $lesson = factory(Lesson::class)->create([
