@@ -38,11 +38,11 @@
           <ul class="topbar-nav nav">
             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
             @auth
-                {{--  @admin  --}}
+
+                @admin
                   <li class="nav-item"><a href="{{ route('series.index') }}" class="nav-link">All series</a></li>
                   <li class="nav-item"><a href="{{ route('series.create') }}" class="nav-link">Create series</a></li>
-
-                {{--  @endadmin  --}}
+                @endadmin
 
                 @if(auth()->check())
                   <li class="nav-item">

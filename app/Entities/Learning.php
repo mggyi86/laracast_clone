@@ -52,7 +52,8 @@ trait Learning
 
     public function seriesBeingWatchedIds() {
         $keys = Redis::keys("user:{$this->id}:series:*");
-        $seriesIds = [];        foreach ($keys as $key) {
+        $seriesIds = [];
+        foreach ($keys as $key) {
             $seriedId = explode(':', $key)[3];
             array_push($seriesIds, $seriedId);
         }
@@ -63,7 +64,7 @@ trait Learning
     public function seriesBeingWatched() {
         return collect($this->seriesBeingWatchedIds())->map(function($id){
             return Series::find($id);
-        })->filter();
+        })->filter(); //filter for null vlaue
     }
 
     public function getTotalNumberOfCompletedLessons()
@@ -77,5 +78,13 @@ trait Learning
         }
 
         return $result;
+    }
+
+    public function getNextLessonToWatch($series)
+    {
+        $lessonIds = $this->getCompletedLessonsForASeries($series);
+        $lessonId = end($lessonIds);
+
+        return Lesson::find($lessonId)->getNextLesson();
     }
 }
