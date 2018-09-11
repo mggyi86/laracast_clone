@@ -55,7 +55,7 @@
     </div>
 </section>
 
-{{-- @if(auth()->id() === $user->id)
+@if(auth()->id() === $user->id)
 @php
 $subscription = auth()->user()->subscriptions->first();
 @endphp
@@ -115,7 +115,7 @@ $subscription = auth()->user()->subscriptions->first();
             </div>
 
             <div class="tab-pane fade" id="messages-2">
-                <form action="{{ route('subscriptions.change') }}" method="post">
+                <form action="{{ route('all-series') }}" method="post">
                     {{ csrf_field() }}
                     <h5 class="text-center">
                         Your current plan:
@@ -162,7 +162,7 @@ $subscription = auth()->user()->subscriptions->first();
 
     </div>
 </section>
-@endif --}}
+@endif
 
 @endsection
 

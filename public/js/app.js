@@ -48244,8 +48244,10 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
 //
 //
 //
@@ -48253,6 +48255,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -48291,11 +48294,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
       locale: 'auto',
       token: function token(_token) {
-        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/subscribe', {
+        __WEBPACK_IMPORTED_MODULE_0_sweetalert___default()({ text: 'Please wait while we subscribe you to a plan ...', buttons: false });
+        __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/subscribe', {
           stripeToken: _token.id,
           plan: window.stripePlan
         }).then(function (res) {
-          console.log(res);
+          __WEBPACK_IMPORTED_MODULE_0_sweetalert___default()({ text: 'Successfully subscribed', icon: 'success' }).then(function () {
+            window.location = '';
+          });
         });
       }
     });
@@ -50769,6 +50775,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //
 //
 //
+//
+//
+//
 
 
 
@@ -50779,6 +50788,7 @@ var Lesson = function Lesson(lesson) {
   this.description = lesson.description || '';
   this.video_id = lesson.video_id || '';
   this.episode_number = lesson.episode_number || '';
+  this.premium = lesson.premium || false;
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -50791,7 +50801,8 @@ var Lesson = function Lesson(lesson) {
       lesson: {},
       editing: false,
       seriesId: '',
-      lessonId: null
+      lessonId: null,
+      premium: false
     };
   },
   mounted: function mounted() {
@@ -50971,6 +50982,52 @@ var render = function() {
                   }
                 }
               })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.lesson.premium,
+                    expression: "lesson.premium"
+                  }
+                ],
+                attrs: { type: "checkbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.lesson.premium)
+                    ? _vm._i(_vm.lesson.premium, null) > -1
+                    : _vm.lesson.premium
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.lesson.premium,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          _vm.$set(_vm.lesson, "premium", $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          _vm.$set(
+                            _vm.lesson,
+                            "premium",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
+                      }
+                    } else {
+                      _vm.$set(_vm.lesson, "premium", $$c)
+                    }
+                  }
+                }
+              }),
+              _vm._v(
+                " Premium: " + _vm._s(_vm.lesson.premium) + "\n                "
+              )
             ])
           ]),
           _vm._v(" "),
