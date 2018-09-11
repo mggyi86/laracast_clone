@@ -82,7 +82,7 @@ trait Learning
 
     public function getNextLessonToWatch($series)
     {
-        $lessonIds = $this->getCompletedLessonsForASeries($series);
+        $lessonIds = $this->getCompletedLessonsForASeries($series); //[1, 2, 3]
         $lessonId = end($lessonIds);
 
         return Lesson::find($lessonId)->getNextLesson();

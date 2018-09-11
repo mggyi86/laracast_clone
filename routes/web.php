@@ -24,14 +24,33 @@ Route::get('/redis', function() {
     // dd('test');
 });
 
+Route::get('/subscribe', function() {
+    return view('subscribe');
+});
 
+Route::post('/subscribe', function() {
+    // dd(auth()->user()
+    // ->newSubscription(
+    //     request('plan'), request('plan')
+    // )->create(
+    //     request('stripeToken')
+    // ));
+    // return (request()->all());
+    return auth()->user()
+            ->newSubscription(
+                request('plan'), request('plan')
+            )->create(
+                request('stripeToken')
+            );
+});
 
 Auth::routes();
 
 Route::get('/', 'FrontendController@welcome');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/profile/{user}', 'ProfileController@index');
+Route::get('/profile/{user}', 'ProfileController@index')->name('profile');
 Route::get('/series/{series}', 'FrontendController@series')->name('series');
+Route::get('/series', 'FrontendController@showAllseries')->name('all-series');
 Route::get('/register/confirm/', 'ConfirmEmailController@index')->name('confirm-email');
 Route::get('/logout', function() {
     auth()->logout();
