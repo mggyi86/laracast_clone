@@ -52,8 +52,10 @@ Route::get('/logout', function() {
 
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::post('/card/update', 'ProfileController@updateCard');
     Route::get('/subscribe', 'SubscriptionsController@showSubscriptionForm');
     Route::post('/subscribe', 'SubscriptionsController@subscribe');
+    Route::post('/subscription/change', 'SubscriptionsController@change')->name('subscriptions.change');
     Route::post('/series/complete-lesson/{lesson}', 'WatchSeriesController@completeLesson');
     Route::get('/watch-series/{series}', 'WatchSeriesController@index')->name('series.learning');
     Route::get('/series/{series}/lesson/{lesson}', 'WatchSeriesController@showLesson')->name('series.watch');

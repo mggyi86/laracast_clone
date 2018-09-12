@@ -30,6 +30,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $with = [
+        'subscriptions'
+    ];
+
     public function isConfirmed()
     {
         return $this->confirm_token == null;

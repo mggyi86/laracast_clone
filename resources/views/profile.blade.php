@@ -115,7 +115,7 @@ $subscription = auth()->user()->subscriptions->first();
             </div>
 
             <div class="tab-pane fade" id="messages-2">
-                <form action="{{ route('all-series') }}" method="post">
+                <form action="{{ route('subscriptions.change') }}" method="post">
                     {{ csrf_field() }}
                     <h5 class="text-center">
                         Your current plan:
